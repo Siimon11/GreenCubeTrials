@@ -58,9 +58,9 @@ public class LevelAssets {
     }
     public void level1room1() {
 
-        gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*4, gamePanel.tileSize*18, 32, 32, "down"));
-        gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*5, gamePanel.tileSize*18, 32, 32, "down"));
-        gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*6, gamePanel.tileSize*18, 32, 32, "down"));
+        //gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*4, gamePanel.tileSize*18, 32, 32, "down"));
+        //gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*5, gamePanel.tileSize*18, 32, 32, "down"));
+        //gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*6, gamePanel.tileSize*18, 32, 32, "down"));
 
         gamePanel.spikes.add(new LowSpike(gamePanel.tileSize*11, gamePanel.tileSize*17, 32, 32, "down"));
 

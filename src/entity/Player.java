@@ -24,7 +24,7 @@ public class Player extends Entity{
     BufferedImage playerLeft, playerRight, playerDefault;
     public final int playerWidth = 32;
     public final int playerHeight = 32;
-    private boolean onGround = false;
+    public boolean onGround = false;
     public String direction = "right";
     public String playerState = "idle";
     public static int coins = 0;
@@ -47,17 +47,14 @@ public class Player extends Entity{
             default -> null;
         };
         if(Objects.equals(playerState, "spawning")) {
-            if(spriteTick == 20) {
+            if(spriteTick >= 20) {
                 spriteNum++;
                 spriteTick = 0;
             }
             assert image != null;
             image = image.getSubimage(spriteNum*gamePanel.tileSize, 3*gamePanel.tileSize, playerWidth, playerHeight);
-        } else {
-
-        }
-        if(Objects.equals(playerState, "idle")) {
-            if(spriteTick == 18) {
+        } else if(Objects.equals(playerState, "idle")) {
+            if(spriteTick >= 18) {
                 spriteNum++;
                 spriteTick = 0;
                 if(spriteNum == 3) {
@@ -73,7 +70,40 @@ public class Player extends Entity{
             assert image != null;
             image = image.getSubimage(spriteNum*gamePanel.tileSize, 0, playerWidth, playerHeight);
         } else if (Objects.equals(playerState, "running")) {
-
+            if(spriteTick >= 10) {
+                spriteNum++;
+                spriteTick = 0;
+            }
+            if(spriteNum > 7) spriteNum = 0;
+            assert image != null;
+            switch (spriteNum) {
+                case 0,1: image = image.getSubimage(spriteNum*gamePanel.tileSize+gamePanel.tileSize*6, 0, playerWidth, playerHeight); break;
+                case 2,3,4,5,6,7: image = image.getSubimage((spriteNum-2)*gamePanel.tileSize, gamePanel.tileSize, playerWidth, playerHeight); break;
+                default:
+                    System.out.println("Error in running"); break;
+            }
+        } else if (Objects.equals(playerState, "falling")) {
+            spriteTick = 0;
+            assert image != null;
+            if(xSpeed > 2 || xSpeed < -2) {
+                image = image.getSubimage(gamePanel.tileSize*5, 0, playerWidth, playerHeight);
+            } else {
+                image = image.getSubimage(0, gamePanel.tileSize*2, playerWidth, playerHeight);
+            }
+        } else if (Objects.equals(playerState, "up")) {
+            spriteTick = 0;
+            assert image != null;
+            image = image.getSubimage(gamePanel.tileSize*7, gamePanel.tileSize, playerWidth, playerHeight);
+        } else if (Objects.equals(playerState, "death")) {
+            if(spriteTick >= 4) {
+                spriteNum++;
+                spriteTick = 0;
+            }
+            assert image != null;
+            switch (spriteNum) {
+                case 0,1,2,3: image = image.getSubimage(spriteNum*gamePanel.tileSize+gamePanel.tileSize*4, 3*gamePanel.tileSize, playerWidth, playerHeight); break;
+                case 4,5,6,7: image = image.getSubimage((spriteNum-4)*gamePanel.tileSize, 4*gamePanel.tileSize, playerWidth, playerHeight); break;
+            }
         }
         g2.drawImage(image, (int)worldX, (int)worldY, playerWidth, playerHeight, null);
         spriteTick++;
@@ -102,6 +132,7 @@ public class Player extends Entity{
             } else if (xSpeed < -5) {
                 xSpeed = -5;
             }
+            onGround = false;
             hitBox.y++;
             for (Wall wall: gamePanel.walls) {
                 if (wall.hitBox.intersects(hitBox)) {
@@ -110,6 +141,23 @@ public class Player extends Entity{
             }
             hitBox.y--;
 
+            if(onGround && (xSpeed > 0 || xSpeed < 0)) {
+                playerState = "running";
+                idleTick = 0;
+            } else if (!onGround) {
+                if(ySpeed > 0) {
+                    playerState = "falling";
+                } else {
+                    playerState = "up";
+                }
+                idleTick = 0;
+            } else {
+                if(idleTick < 20) {
+                    idleTick++;
+                } else {
+                    playerState = "idle";
+                }
+            }
 
             if (gamePanel.keyHandler.spacePressed) {
                 hitBox.y++;
@@ -150,18 +198,31 @@ public class Player extends Entity{
     }
 
     public void dead() {
-        gamePanel.level.changeRoom(gamePanel.levelNumber, gamePanel.roomNumber);
-//        worldX = gamePanel.level.returnSpawnX() * gamePanel.tileSize;
-//        worldY = gamePanel.level.returnSpawnY() * gamePanel.tileSize;
-
-        hitBox.x = (int)worldX;
-        hitBox.y = (int)worldY;
-        xSpeed = 0;
-        ySpeed = 0;
+        controllable = false;
+        playerState = "death";
+        spriteNum = 0;
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                spriteNum = 0;
+                playerState = "idle";
+                spriteTick = 0;
+                gamePanel.level.getSpawnPositions();
+                spawn();
+                hitBox.x = (int)worldX;
+                hitBox.y = (int)worldY;
+                xSpeed = 0;
+                ySpeed = 0;
+                timer.cancel();
+            }
+        };
+        timer.schedule(task, 500);
     }
     public void spawn() {
         spriteNum = 0;
         playerState = "spawning";
+        direction = "right";
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
@@ -169,6 +230,7 @@ public class Player extends Entity{
                 controllable = true;
                 spriteNum = 0;
                 playerState = "idle";
+                spriteTick = 0;
                 timer.cancel();
             }
         };

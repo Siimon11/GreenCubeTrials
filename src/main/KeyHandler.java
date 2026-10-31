@@ -50,7 +50,10 @@ public class KeyHandler implements KeyListener {
             gamePanel.player.dead();
         }
         if (code == KeyEvent.VK_C) {
-            System.out.println(Player.coins);
+            System.out.println(gamePanel.player.playerState);
+            System.out.println(gamePanel.player.spriteNum);
+            System.out.println(gamePanel.player.spriteTick);
+            System.out.println(gamePanel.player.onGround);
         }
     }
     public void titleKeys(int code) {
