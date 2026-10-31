@@ -15,11 +15,12 @@ public class MouseHandler implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         int clickX = e.getX();
         int clickY = e.getY();
-        //System.out.println(clickX + " " + clickY);
         if (gamePanel.gameState == gamePanel.titleState) {
             if (gamePanel.ui.titleScreenNumber == 0) {
-                if (clickX > 355 && clickX < 640 && clickY > 355 && clickY < 640) {
+                if (clickX > 400 && clickX < 623 && clickY > 210 && clickY < 258) {
                     gamePanel.ui.titleScreenNumber = 1;
+                } else if (clickX > 400 && clickX < 623 && clickY > 270 && clickY < 318) {
+                    gamePanel.ui.titleScreenNumber = 99; 
                 }
             }
             else if (gamePanel.ui.titleScreenNumber == 1) {

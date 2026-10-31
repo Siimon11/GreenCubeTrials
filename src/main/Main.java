@@ -9,7 +9,7 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Emerald Escape");
-        window.setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/player/playerImage.png")));
+        window.setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/main_menu/icon.png")));
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);

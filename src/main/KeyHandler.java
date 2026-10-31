@@ -1,5 +1,7 @@
 package main;
 
+import entity.Player;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -7,7 +9,7 @@ public class KeyHandler implements KeyListener {
 
     GamePanel gamePanel;
     public boolean debug = false;
-    public boolean wPressed, aPressed, sPressed, dPressed, spacePressed, enterPressed;
+    public boolean wPressed, aPressed, sPressed, dPressed, spacePressed, enterPressed, idle;
 
     public KeyHandler(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -21,7 +23,7 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
         if (gamePanel.gameState == gamePanel.titleState) {
-            titleKeys(code);
+            //titleKeys(code);
         } else if (gamePanel.gameState == gamePanel.playState) {
             playKeys(code);
         }
@@ -46,6 +48,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_G) {
             gamePanel.player.dead();
+        }
+        if (code == KeyEvent.VK_C) {
+            System.out.println(Player.coins);
         }
     }
     public void titleKeys(int code) {
@@ -93,7 +98,7 @@ public class KeyHandler implements KeyListener {
     public void debug(int code) {
         if (code == KeyEvent.VK_P && !debug) {
             debug = true;
-        } else if (code  == KeyEvent.VK_P && debug) {
+        } else if (code  == KeyEvent.VK_P) {
             debug = false;
         }
     }

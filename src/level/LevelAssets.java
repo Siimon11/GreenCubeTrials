@@ -45,6 +45,11 @@ public class LevelAssets {
         for (Slime slime: gamePanel.slimes) {
             slime.draw(g2);
         }
+        for(Collectible collectible: gamePanel.collectibles) {
+            if (collectible.amount > 0) {
+                collectible.draw(g2);
+            }
+        }
         /*
         for (Door door: gamePanel.doors) {
             door.draw(g2);
@@ -67,8 +72,7 @@ public class LevelAssets {
         gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*14, gamePanel.tileSize*18, 32, 32, "right"));
         gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*15, gamePanel.tileSize*17, 32, 32, "down"));
         gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*16, gamePanel.tileSize*18, 32, 32, "left"));
-
-        gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*20, gamePanel.tileSize*18, 32, 32, "down"));
+        
         gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*21, gamePanel.tileSize*18, 32, 32, "down"));
         gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*22, gamePanel.tileSize*18, 32, 32, "down"));
         gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*23, gamePanel.tileSize*18, 32, 32, "down"));
@@ -93,6 +97,9 @@ public class LevelAssets {
         gamePanel.spikes.add(new LowSpike(gamePanel.tileSize*7, gamePanel.tileSize*2, 32, 32, "down"));
 
         gamePanel.doors.add(new Door(gamePanel.tileSize*1, gamePanel.tileSize*2, 32, 32));
+
+        //gamePanel.collectibles.add(new Coin(gamePanel.tileSize*2, gamePanel.tileSize*15, 32, 32));
+
     }
     public void level1room2() {
         gamePanel.spikes.add(new SingleSpike(gamePanel.tileSize*3, gamePanel.tileSize*18, 32, 32, "down"));

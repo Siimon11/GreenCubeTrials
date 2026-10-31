@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import entity.Player;
 import objects.*;
 
 import java.util.ConcurrentModificationException;
@@ -81,7 +82,13 @@ public class CollisionChecker {
         }
         for (Slime slime: gamePanel.slimes) {
             if (gamePanel.player.hitBox.intersects(slime.hitBox) && gamePanel.player.ySpeed > 1) {
-                gamePanel.player.ySpeed -= gamePanel.player.ySpeed*1.8;
+                gamePanel.player.ySpeed -= gamePanel.player.ySpeed*1.5;
+            }
+        }
+        for (Collectible collectible: gamePanel.collectibles) {
+            if (gamePanel.player.hitBox.intersects(collectible.hitBox)) {
+                Player.coins += collectible.amount;
+                collectible.reduceAmount();
             }
         }
         try {

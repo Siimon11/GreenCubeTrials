@@ -51,6 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
     public ArrayList<Spike> spikes = new ArrayList<>();
     public ArrayList<Slime> slimes = new ArrayList<>();
     public ArrayList<Door> doors = new ArrayList<>();
+    public ArrayList<Collectible> collectibles = new ArrayList<>();
 
     // PLAYER
     public Player player = new Player(this, keyHandler);
@@ -137,7 +138,6 @@ public class GamePanel extends JPanel implements Runnable {
             if (keyHandler.debug) {
                 ui.draw(g2);
             }
-
         }
         /*
         for(Wall wall: walls) {

@@ -9,6 +9,7 @@ public class Level {
     }
 
     public void changeRoom(int levelNumber, int roomNumber) {
+        gamePanel.player.controllable = false;
         gamePanel.gameState = gamePanel.playState;
         gamePanel.roomNumber = roomNumber;
         gamePanel.levelNumber = levelNumber;
@@ -20,6 +21,7 @@ public class Level {
         gamePanel.makeWalls();
         gamePanel.levelAssets.place();
         getSpawnPositions();
+        gamePanel.player.spawn();
     }
     public void getSpawnPositions() {
         if (gamePanel.levelNumber == 1) {
